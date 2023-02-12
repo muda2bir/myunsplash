@@ -1,14 +1,12 @@
-import Loader from "@/components/Loader";
 import Masonry from "@/components/Masonry";
 import Navbar from "@/components/Navbar";
 import { loginState } from "@/reduxStates/loginSlice";
 import { currentUser } from "@/reduxStates/userSlice";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
-  // const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const login = useSelector((state) => state.loginState.value);
 
