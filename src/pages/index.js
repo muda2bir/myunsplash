@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const login = useSelector((state) => state.loginState.value);
 
@@ -23,13 +23,6 @@ export default function Home() {
       dispatch(currentUser(data.user));
       dispatch(loginState(true));
     })();
-    const preLoadingTime = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-
-    return () => {
-      clearTimeout(preLoadingTime);
-    };
   }, [login, dispatch]);
 
   return (
@@ -41,15 +34,7 @@ export default function Home() {
       </Head>
       <div className="container">
         <Navbar />
-        {!isLoading ? (
-          <>
-            <Masonry />
-          </>
-        ) : (
-          <div className="loading_container">
-            <Loader />
-          </div>
-        )}
+        <Masonry />
       </div>
     </>
   );

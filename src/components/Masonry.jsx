@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/Masonry.module.css";
+import Loader from "./Loader";
 
 function Masonry() {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ function Masonry() {
   const reRenderValue = useSelector((state) => state.reRender.value);
   const searchQuery = useSelector((state) => state.searchQuery.value);
   const [allImages, setAllImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   async function fetchAllImages() {
     const response = await fetch("/api/fetch_all_images");
@@ -19,6 +21,7 @@ function Masonry() {
     const allImagesInReverse = data.reverse();
     const imageArr = imagesFilterMachine(allImagesInReverse);
     setAllImages(imageArr);
+    setLoading(false);
   }
 
   function imagesFilterMachine(allImageArray) {
@@ -59,6 +62,7 @@ function Masonry() {
         const allImagesInReverse = data.userImages["images"].reverse();
         const imageArr = imagesFilterMachine(allImagesInReverse);
         setAllImages(imageArr);
+        setLoading(false);
       })();
       return;
     } catch (err) {
@@ -72,7 +76,11 @@ function Masonry() {
   return (
     <>
       <main className={styles.masonry_container}>
-        {allImages.length > 0 ? (
+        {loading ? (
+          <div className="loading_container">
+            <Loader />
+          </div>
+        ) : allImages.length > 0 ? (
           allImages.map((image) => {
             return (
               <div
